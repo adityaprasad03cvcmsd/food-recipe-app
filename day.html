@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="./styles/navbar.css">
+</head>
+
+<body>
+    <div id="nav_display"></div>
+    <div id="display"></div>
+</body>
+
+</html>
+<script type="module">
+    import { navbar } from "./components/navbar.js";
+    import { getData, showData, display_search, debouncing, search } from "./scripts/showdata.js";
+
+    let nav = navbar()
+        .then((res) => {
+            document.querySelector("#nav_display").innerHTML = res;
+            document.querySelector("#navbar form").addEventListener("submit", search);
+            document.querySelector("#navbar form>input").addEventListener("input", debouncing)
+            let result = getData("https://www.themealdb.com/api/json/v1/1/random.php")
+                .then((res) => {
+                    showData(res);
+                })
+                .catch((err) => {
+                    console.log("err:", err)
+                })
+        })
+</script>
